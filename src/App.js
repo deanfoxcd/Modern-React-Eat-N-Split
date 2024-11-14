@@ -24,10 +24,19 @@ export default function App() {
     <div className="app">
       <div className="sidebar">
         <FriendsList />
+        <FormAddFriend />
+        <Button>Add Friend</Button>
+      </div>
+      <div>
+        <FormSplitBill />
       </div>
     </div>
   );
 }
+
+const Button = ({ children }) => {
+  return <button className="button">{children}</button>;
+};
 
 const FriendsList = () => {
   const friends = initialFriends;
@@ -47,17 +56,50 @@ const Friend = ({ friend }) => {
       <li>
         <img src={friend.image} alt={friend.name} />
         <h3>{friend.name}</h3>
-        <p>
-          {friend.balance === 0
-            ? `You and ${friend.name} are even`
-            : friend.baance > 0
-            ? `${friend.name} owes you $${friend.balance}`
-            : `You owe ${friend.name} $${Math.abs(friend.balance)}`}
-        </p>
-        <button className="button">Select</button>
+
+        {friend.balance === 0 ? (
+          <p>You and {friend.name} are even</p>
+        ) : friend.balance > 0 ? (
+          <p className="green">
+            {friend.name} owes you ${friend.balance}
+          </p>
+        ) : (
+          <p className="red">
+            You owe {friend.name} ${Math.abs(friend.balance)}
+          </p>
+        )}
+        <Button>Select </Button>
       </li>
     </div>
   );
 };
 
-const BillSummary = () => {};
+const FormAddFriend = () => {
+  return (
+    <div>
+      <form className="form form-add-friend">
+        <label>👫 Friend Name: </label>
+        <input type="text" />
+        <label>🌅 Image URL: </label>
+        <input type="text" />
+        <Button>Add</Button>
+      </form>
+    </div>
+  );
+};
+
+const FormSplitBill = () => {
+  return (
+    <form className="form-split-bill">
+      <h2>SPLIT A BILL WITH SARAH</h2>
+      <label>💰 Bill Value: </label>
+      <input type="text" />
+      <label>🧍🏼 Your Expense: </label>
+      <input type="text" />
+      <label>👫 Sarah's Expense: </label>
+      <input />
+      <label>🤑 Who's Paying? </label>
+      <input type="text" />
+    </form>
+  );
+};
