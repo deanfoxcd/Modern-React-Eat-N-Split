@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const initialFriends = [
   {
     id: 118836,
@@ -20,12 +22,27 @@ const initialFriends = [
 ];
 
 export default function App() {
+  const [showAddFriend, setShowAddFriend] = useState(false);
+
   return (
     <div className="app">
       <div className="sidebar">
         <FriendsList />
-        <FormAddFriend />
-        <Button>Add Friend</Button>
+        {!showAddFriend && (
+          <Button
+            onClick={() => {
+              setShowAddFriend(true);
+            }}
+          >
+            Add Friend
+          </Button>
+        )}
+        {showAddFriend && (
+          <div>
+            <FormAddFriend setShowAddFriend={setShowAddFriend} />
+          </div>
+        )}
+        {/* <Button>Add Friend</Button> */}
       </div>
       <div>
         <FormSplitBill />
@@ -34,8 +51,12 @@ export default function App() {
   );
 }
 
-const Button = ({ children }) => {
-  return <button className="button">{children}</button>;
+const Button = ({ onClick, children }) => {
+  return (
+    <button className="button" onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 const FriendsList = () => {
@@ -74,9 +95,13 @@ const Friend = ({ friend }) => {
   );
 };
 
-const FormAddFriend = () => {
+const FormAddFriend = ({ setShowAddFriend }) => {
+  const handleClose = () => {
+    setShowAddFriend(false);
+  };
+
   return (
-    <div>
+    <div className="sidebar">
       <form className="form form-add-friend">
         <label>👫 Friend Name: </label>
         <input type="text" />
@@ -84,6 +109,7 @@ const FormAddFriend = () => {
         <input type="text" />
         <Button>Add</Button>
       </form>
+      <Button onClick={handleClose}>Close</Button>
     </div>
   );
 };
@@ -91,15 +117,19 @@ const FormAddFriend = () => {
 const FormSplitBill = () => {
   return (
     <form className="form-split-bill">
-      <h2>SPLIT A BILL WITH SARAH</h2>
+      <h2>SPLIT A BILL WITH XXXXX</h2>
       <label>💰 Bill Value: </label>
       <input type="text" />
       <label>🧍🏼 Your Expense: </label>
       <input type="text" />
-      <label>👫 Sarah's Expense: </label>
-      <input />
+      <label>👫 XXXXX's Expense: </label>
+      <input disabled />
       <label>🤑 Who's Paying? </label>
-      <input type="text" />
+      <select>
+        <option value="user">You</option>
+        <option value="friend">XXXX</option>
+      </select>
+      <Button>Split Bill</Button>
     </form>
   );
 };
