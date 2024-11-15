@@ -24,22 +24,24 @@ const initialFriends = [
 export default function App() {
   const [showAddFriend, setShowAddFriend] = useState(false);
 
+  const handleShowAddFriend = () => {
+    setShowAddFriend(() => setShowAddFriend(!showAddFriend));
+  };
+
   return (
     <div className="app">
       <div className="sidebar">
         <FriendsList />
         {!showAddFriend && (
-          <Button
-            onClick={() => {
-              setShowAddFriend(true);
-            }}
-          >
-            Add Friend
-          </Button>
+          <Button onClick={handleShowAddFriend}>Add Friend</Button>
         )}
         {showAddFriend && (
           <div>
-            <FormAddFriend setShowAddFriend={setShowAddFriend} />
+            <FormAddFriend
+              showAddFriend={showAddFriend}
+              setShowAddFriend={setShowAddFriend}
+              onShowAddFriend={handleShowAddFriend}
+            />
           </div>
         )}
         {/* <Button>Add Friend</Button> */}
@@ -95,11 +97,11 @@ const Friend = ({ friend }) => {
   );
 };
 
-const FormAddFriend = ({ setShowAddFriend }) => {
-  const handleClose = () => {
-    setShowAddFriend(false);
-  };
-
+const FormAddFriend = ({
+  showAddFriend,
+  setShowAddFriend,
+  onShowAddFriend,
+}) => {
   return (
     <div className="sidebar">
       <form className="form form-add-friend">
@@ -109,7 +111,7 @@ const FormAddFriend = ({ setShowAddFriend }) => {
         <input type="text" />
         <Button>Add</Button>
       </form>
-      <Button onClick={handleClose}>Close</Button>
+      <Button onClick={onShowAddFriend}>Close</Button>
     </div>
   );
 };
